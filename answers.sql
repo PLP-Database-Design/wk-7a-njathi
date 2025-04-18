@@ -21,7 +21,7 @@ CREATE TABLE OrdersNormalized (
 );
 
 -- Question 2_Achieving 2NF
-USE normalisation;
+
 -- Creating the normalized Orders table
 CREATE TABLE Orders (
     OrderID INT PRIMARY KEY,
