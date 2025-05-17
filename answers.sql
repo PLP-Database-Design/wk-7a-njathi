@@ -1,53 +1,42 @@
--- Question 1_Achieving 1NF
-
--- Creating the original denormalized table
-CREATE TABLE ProductDetails (
+ --  Question 1
+CREATE TABLE ProductDetail (
     OrderID INT,
     CustomerName VARCHAR(100),
-    Products VARCHAR(255)
+    Products VARCHAR(100)
 );
-
--- Inserting the original data
-INSERT INTO ProductDetails (OrderID, CustomerName, Products) VALUES
-(101, 'John Doe', 'Laptop, Mouse'),
-(102, 'Jane Smith', 'Tablet, Keyboard, Mouse'),
+INSERT INTO ProductDetail(OrderID, CustomerName, Products)
+VALUES
+(101, 'John Doe', 'Laptop'),
+(101, 'John Doe', 'Mouse'),
+(102, 'Jane Smith', 'Tablet'),
+(102, 'Jane Smith', 'Keyboard'),
+(102, 'Jane Smith', 'Mouse'),
 (103, 'Emily Clark', 'Phone');
-
--- Creating the normalized table
-CREATE TABLE OrdersNormalized (
-    OrderID INT,
-    CustomerName VARCHAR(100),
-    Product VARCHAR(100)
+-- Question 2
+ CREATE TABLE orders(
+OrderID INT PRIMARY KEY,
+customerName VARCHAR(100)
 );
-
--- Question 2_Achieving 2NF
-
--- Creating the normalized Orders table
-CREATE TABLE Orders (
-    OrderID INT PRIMARY KEY,
-    CustomerName VARCHAR(100)
-);
-
--- Creating the OrderDetails table
-CREATE TABLE OrderDetails (
-    OrderID INT,
-    Product VARCHAR(100),
-    Quantity INT,
-    PRIMARY KEY (OrderID, Product),
-    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID)
-);
-
--- Insert data into Orders
-INSERT INTO Orders (OrderID, CustomerName) VALUES
+INSERT INTO orders (OrderID, CustomerName)
+VALUES
 (101, 'John Doe'),
 (102, 'Jane Smith'),
 (103, 'Emily Clark');
 
--- Insert data into OrderDetails
-INSERT INTO OrderDetails (OrderID, Product, Quantity) VALUES
-(101, 'Laptop', 2),
-(101, 'Mouse', 1),
-(102, 'Tablet', 3),
-(102, 'Keyboard', 1),
-(102, 'Mouse', 2),
-(103, 'Phone', 1);
+-- Product  table 
+CREATE TABLE product(
+product_id INT primary key,
+productName varchar(100),
+quantity INT,
+order_id INT,
+foreign key(order_id) references orders(OrderID)
+);
+
+insert into product(product_id,productName,quantity,order_id)
+values 
+(1,'laptop',2,101),
+(2,'Mouse',1,101),
+(3,'Tablet',3,102),
+(4,'Keyboard',2,102),
+(5,'Mouse',1,102),
+(6,'Phone',1,103);
